@@ -7,8 +7,8 @@ The goal of the puzzle is to switch all the lights off, preferably in as few but
 
 ### Usage
 
-Ocaml must be installed.
-In a command line :
+Ocaml must be installed.  
+To compile just do this command :
 
 ```bash
 make
@@ -20,10 +20,10 @@ To play this game, just do :
 ./Algo n m p t
 ```
 
-n : height > 0
-m : width > 0
-p : number of colors > 1
-t : size of blocks > 0 (optionnal)
+n : height > 0  
+m : width > 0  
+p : number of colors > 1  
+t : size of blocks > 0 (optionnal)  
 
 ### Command in game
 
@@ -33,6 +33,7 @@ You can activate and desactivate borders with the key p.
 
 ### Solvers
 
-I implemented two solvers.
-The first one solve the entire system and give you one solution. Then you can choose to show all the solution or not. This solution is computed in a time proportional to (nm)^3.
+I implemented two solvers.  
+The first one solve the entire system and give you one solution. Then you can choose to show all the solution or not. 
+This solution is computed in a time proportional to (nm)^3.  
 The second one is faster but it gives you one solution. This solution is computed in a time proportionnal to n^3.
