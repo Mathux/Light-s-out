@@ -1,5 +1,5 @@
 all:
-	ocamlbuild -use-ocamlfind -package graphics -package unix Algo.native
-	mv Algo.native Algo
+	ocamlbuild  -tag thread -use-ocamlfind -package graphics -package unix lights_out.native
+	mv lights_out.native lights_out
 clean:
 	ocamlbuild -clean
