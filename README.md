@@ -28,10 +28,11 @@ t : size of blocks > 0 (optionnal)
 ### Command in game
 
 To press a tile, you can click on it or press the key a or w.  
-Key p : activate and desactivate borders with the key p.  
-Key e : solve the game
-Key g : solve quickly the game
-Key m : solve step by step the solution computed
+Key p : activate/desactivate borders.  
+Key e : solve the game.  
+Key g : solve quickly the game.  
+Key m : solve step by step the solution computed.  
+Key l : activate/desactivate sounds.  
 
 
 ### Solvers
