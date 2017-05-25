@@ -5,6 +5,15 @@ let graphics_open a b =
   set_window_title "Light's out"
   (*resize_window a b*)
 
+let enCours = ref false
+let play_sound () =
+  if !enCours then ()
+  else begin
+      enCours := true;
+      let _ = Unix.open_process_in "./sound " in
+      enCours := false
+    end
+                                      
 let sommeZ a b d = (d + a + b) mod d
 
 let egalZ a b d = (a - b + d) mod d = 0
@@ -184,7 +193,7 @@ let rec det m =
 		done;
 		!s
 
-let transvectionZ m i j y d = (*On ajoute ˆ la ligne i de m y fois la ligne j*)
+let transvectionZ m i j y d = (*On ajoute a la ligne i de m y fois la ligne j*)
 	let n = Array.length m.(0) in
 	for k = 0 to n - 1 do
 		m.(i).(k) <- sommeZ m.(i).(k) (prodZ y m.(j).(k) d) d
@@ -840,11 +849,11 @@ let affiche_rang () =
 		let r = rang (matPZ i j) (i * j) d in
 		print_string "Rang pour "; print_int i; print_string "x"; print_int j; print_string " : "; print_int r; print_string " sur "; print_int (i * j);
 		if r = (i * j) then begin
-			print_string " inversibilitŽ OUI.";
+			print_string " inversibilite OUI.";
 			(tabl.(d)).(i).(j) <- 1
 		  end
 		else begin
-			print_string " inversibilitŽ NON";
+			print_string " inversibilite NON";
 			(tabl.(d)).(i).(j) <- 0
 		  end;
 		print_newline ();
@@ -865,11 +874,11 @@ let affiche_dimKer () =
 		let k = fst (dimKer (matPZ i j) (i * j) d) in
 		print_string "Dim du noyau pour "; print_int i; print_string "x"; print_int j; print_string " : "; print_int k; print_string " sur "; print_int (i * j);
 		if k = 0 then begin
-			print_string " inversibilitŽ OUI.";
+			print_string " inversibilite OUI.";
 			(tabl.(d)).(i).(j) <- 1
 		  end
 		else begin
-			print_string " inversibilitŽ NON";
+			print_string " inversibilite NON";
 			(tabl.(d)).(i).(j) <- 0
 		  end;
 		print_newline ();
@@ -1133,7 +1142,7 @@ let trace_jeu m d block =
 	let xX = e.mouse_x and yY = e.mouse_y in
 	if e.button then begin
 		let u = case yY xX in
-		(*sound 440 40;*)
+		play_sound ();
 		transformJ g (fst u) (snd u) n p 1 d;
 		if g = fin then begin
 			colorJeu false;
@@ -1145,10 +1154,10 @@ let trace_jeu m d block =
 	if e.keypressed then begin
 		let u = e.key in
 		match u with
-		| '\027' -> close_graph (); (* Touche Žchap *)
+		| '\027' -> close_graph (); (* Touche echap *)
 				   ne := false;
 		| '\013' -> begin (* Touche entrer *)
-			(*sound 440 40;*)
+			play_sound ();
 			transformJ g (!indV1) (!indV2) n p (!soluce.(!indV1).(!indV2)) d;
 			if !indV2 < p - 1 then incr indV2
 									    
@@ -1177,7 +1186,7 @@ let trace_jeu m d block =
 				
 		| 'w' -> begin
 			let u = case yY xX in
-			(*sound 440 40;*)
+			play_sound ();
 			transformJ g (fst u) (snd u) n p 1 d;
 			colorCaseP (fst u) (snd u) !contour;
 			jeu ();
@@ -1190,7 +1199,7 @@ let trace_jeu m d block =
 		  end
 		| 'a' -> begin
 			let u = case yY xX in
-			(*sound 440 40;*)
+			play_sound ();
 			transformJ g (fst u) (snd u) n p 1 d;
 			if g = fin then begin
 				colorJeu false;
@@ -1239,7 +1248,7 @@ let trace_jeu m d block =
 											  match u with | 'y' -> begin
 															   let soluce1, soluce2, n1, n2 = (solution_optimale (!soluce) n p d) in
 															   
-															   print_string "Solution optimale ("; print_int n1; print_string " cases Ã  appuyer au total) :"; print_newline ();
+															   print_string "Solution optimale ("; print_int n1; print_string " cases  appuyer au total) :"; print_newline ();
 															   affiche soluce1;
 															   print_string "Solution optimale ("; print_int n2; print_string " appuis au total) :"; print_newline ();
 															   affiche soluce2;
@@ -1419,7 +1428,7 @@ let trace_jeu m d block =
 			  let xX = s.mouse_x and yY = s.mouse_y in
 			  if s.button then begin
 				  let u = case yY xX in
-				  (*sound 440 40;*)
+				  play_sound ();
 				  g.(fst u).(snd u) <- (g.(fst u).(snd u) + 1) mod d;
 				  colorJeu !contour;
 				  edit ()
@@ -1429,7 +1438,7 @@ let trace_jeu m d block =
 				  match u with
 				  | 'a' -> begin
 					  let u = case yY xX in
-					  (*sound 440 40;*)
+					  play_sound ();
 					  g.(fst u).(snd u) <- (g.(fst u).(snd u) + 1) mod d;
 					  colorJeu !contour;
 					  edit ()
@@ -1543,7 +1552,7 @@ let trace_jeuA m d a block =
 	let xX = e.mouse_x and yY = e.mouse_y in
 	if e.button then begin
 		let u = case yY xX in
-		(*sound 440 40;*)
+		play_sound ();
 		transformJA g (fst u) (snd u) n p 1 d a;
 		if g = fin then begin
 			colorJeu false;
@@ -1555,12 +1564,12 @@ let trace_jeuA m d a block =
 	if e.keypressed then begin
 		let u = e.key in
 		match u with
-		| '\027' -> close_graph (); (* Touche Žchap *)
+		| '\027' -> close_graph (); (* Touche echap *)
 				   ne := false;
 				   
 		| 'a' -> begin
 			let u = case yY xX in
-			(*sound 440 40;*)
+			play_sound ();
 			transformJA g (fst u) (snd u) n p 1 d a;
 			if g = fin then begin
 				colorJeu false;

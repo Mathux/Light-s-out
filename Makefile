@@ -1,5 +1,5 @@
 all:
-	ocamlbuild -use-ocamlfind -package graphics Algo.native
+	ocamlbuild -use-ocamlfind -package graphics -package unix Algo.native
 	mv Algo.native Algo
 clean:
 	ocamlbuild -clean
